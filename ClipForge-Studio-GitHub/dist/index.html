@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f3ef">
+  <meta name="description" content="Turn a raw clip into a tight, short-form edit with ClipForge Studio.">
+  <title>ClipForge Studio — Find the moment</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="ClipForge Studio home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span>clipforge<span class="brand-dot">.</span></span>
+      </a>
+      <div class="workspace-label">WORKSPACE</div>
+      <div class="project-chip"><span class="project-thumb">CF</span><span><strong>Creator workspace</strong><small>Personal studio</small></span><span class="chevron">⌄</span></div>
+      <div class="side-section-title">YOUR PROJECT</div>
+      <button class="side-link active" type="button"><span class="side-icon">◈</span> Quick edit <span class="side-count">01</span></button>
+      <button class="side-link" type="button" id="newProjectBtn"><span class="side-icon">＋</span> New project</button>
+      <div class="side-section-title side-gap">MAKE IT HIT</div>
+      <div class="workflow-step active-step"><span class="step-num">01</span><span><strong>Find the moment</strong><small>Scan motion + sound</small></span><i></i></div>
+      <div class="workflow-step"><span class="step-num">02</span><span><strong>Shape the cut</strong><small>Pick your best beats</small></span></div>
+      <div class="workflow-step"><span class="step-num">03</span><span><strong>Style & export</strong><small>Ready for your feed</small></span></div>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><span class="privacy-lock">⌑</span><span><strong>Your clips stay yours</strong><small>Video is analyzed on this device.</small></span></div>
+        <div class="sidebar-user"><div class="avatar">J</div><span><strong>Creator</strong><small>Free workspace</small></span><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main" id="top">
+      <header class="topbar">
+        <div class="crumbs"><span>Projects</span><b>/</b><strong>Quick edit</strong><span class="saved-pill"><i></i> Saved locally</span></div>
+        <div class="top-actions"><button class="icon-button" id="helpBtn" aria-label="How it works" title="How it works">?</button><button class="export-button" id="exportBtn" disabled><span>Export video</span><span class="export-arrow">↗</span></button></div>
+      </header>
+
+      <section class="intro-row">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span>YOUR SHORT-FORM EDITOR</div><h1>Find the <em>moment.</em></h1><p class="intro-copy">Drop in a clip. ClipForge finds the beats with the most movement and energy, then builds a punchy first cut.</p></div>
+        <div class="intro-meta"><span class="local-badge"><span>●</span> ON-DEVICE SCAN</span><small>Your video stays on this device.</small></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="edit-column">
+          <section class="upload-card" id="uploadCard">
+            <div class="upload-topline"><span class="step-kicker"><b>01</b> / SOURCE CLIP</span><span class="supported">MP4 · MOV · WEBM</span></div>
+            <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Choose a video file or drop it here">
+              <div class="upload-icon"><span class="upload-arrow">↑</span><span class="upload-orbit"></span></div>
+              <div class="drop-copy"><strong>Drop your video here</strong><span>or <button type="button" id="chooseFileBtn" class="text-button">browse files</button></span></div>
+              <div class="drop-hint">A clip under 3 minutes works best <span>↗</span></div>
+              <input id="fileInput" type="file" accept="video/*" hidden>
+            </div>
+            <div class="loaded-file" id="loadedFile" hidden><div class="file-icon">▶</div><div class="file-info"><strong id="fileName">Your clip</strong><small id="fileMeta">0:00 · 0 MB</small></div><button class="replace-button" type="button" id="replaceFileBtn">Replace clip</button></div>
+          </section>
+
+          <section class="preview-card">
+            <div class="card-heading"><div><span class="step-kicker"><b>02</b> / THE CUT</span><h2>Preview your edit</h2></div><div class="preview-tools"><span class="ratio-chip" id="ratioChip">9:16</span><button class="icon-button small" type="button" id="fullscreenBtn" aria-label="Toggle fullscreen">⛶</button></div></div>
+            <div class="preview-stage" id="previewStage">
+              <div class="stage-glow"></div>
+              <div class="preview-frame vertical" id="previewFrame">
+                <video id="sourceVideo" playsinline></video>
+                <div class="empty-preview" id="emptyPreview"><div class="empty-orb"><span>▶</span></div><strong>Your canvas is waiting</strong><small>Upload a clip to start shaping your story.</small></div>
+                <div class="video-overlay" id="videoOverlay"><div class="overlay-tag" id="overlayTag">A MOMENT WORTH KEEPING</div><div class="overlay-caption" id="overlayCaption">Make it <i>count.</i></div><div class="overlay-watermark">clipforge.</div></div>
+                <div class="scrim"></div>
+                <div class="preview-controls"><button type="button" class="play-button" id="playBtn" aria-label="Play preview">▶</button><div class="preview-progress"><div id="previewProgress"></div></div><span id="previewClock">0:00</span><button type="button" class="volume-button" id="muteBtn" aria-label="Mute video">◖</button></div>
+              </div>
+              <div class="stage-note"><span class="note-dot"></span><span id="stageNote">Your original clip stays on this device</span></div>
+            </div>
+            <div class="timeline-header"><div><span class="step-kicker"><b>03</b> / MOMENT MAP</span><h2>Your story beats</h2></div><div class="timeline-tools"><span class="total-time" id="totalTime">0:00 total</span><button class="subtle-button" id="addCutBtn" disabled>＋ Add beat</button></div></div>
+            <div class="timeline-track" id="timelineTrack">
+              <div class="timeline-empty" id="timelineEmpty"><div class="mini-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>Strong moments will land here</span><small>Run a scan to map your story beats</small></div>
+            </div>
+            <div class="timeline-legend"><span><i class="legend-dot hook"></i>Hook</span><span><i class="legend-dot peak"></i>Peak</span><span><i class="legend-dot payoff"></i>Payoff</span><span class="legend-help">Drag the handles to tighten each beat</span></div>
+          </section>
+        </div>
+
+        <aside class="settings-column">
+          <section class="insight-card">
+            <div class="insight-head"><span class="sparkle">✳</span><span class="step-kicker">SMART SCAN</span><span class="live-tag"><i></i> ON DEVICE</span></div>
+            <h2>Make the first<br>seconds <em>count.</em></h2>
+            <p>We look for visual change and audio peaks to find moments that feel alive.</p>
+            <div class="signal-list"><div><span class="signal-icon motion-icon">↗</span><span><strong>Motion shifts</strong><small>Movement & scene changes</small></span><span class="signal-state">01</span></div><div><span class="signal-icon sound-icon">⌁</span><span><strong>Sound energy</strong><small>Peaks & changes in volume</small></span><span class="signal-state">02</span></div></div>
+            <button class="scan-button" type="button" id="scanBtn" disabled><span class="scan-icon">✳</span><span id="scanLabel">Find my best moments</span><span class="scan-arrow">↗</span></button>
+            <div class="scan-progress" id="scanProgress" hidden><div class="progress-label"><span id="scanStatus">Scanning the clip…</span><strong id="scanPercent">0%</strong></div><div class="progress-rail"><span id="scanBar"></span></div></div>
+            <div class="insight-foot"><span class="tiny-lock">⌑</span> Your video never leaves this device.</div>
+          </section>
+
+          <section class="tune-card">
+            <div class="card-heading compact"><div><span class="step-kicker"><b>04</b> / YOUR VIBE</span><h2>Shape your edit</h2></div><span class="edit-spark">✳</span></div>
+            <label class="field-label" for="formatSelect">FORMAT <span>Choose a destination</span></label>
+            <div class="format-options" role="group" aria-label="Video format">
+              <button class="format-option selected" type="button" data-ratio="9:16"><span class="format-icon portrait-icon"></span><span>Reels / TikTok</span><i>↗</i></button>
+              <button class="format-option" type="button" data-ratio="1:1"><span class="format-icon square-icon"></span><span>Square</span><i>↗</i></button>
+              <button class="format-option" type="button" data-ratio="16:9"><span class="format-icon landscape-icon"></span><span>Landscape</span><i>↗</i></button>
+            </div>
+            <label class="field-label style-label" for="styleSelect">CAPTION STYLE <span>Burned into export</span></label>
+            <select id="styleSelect" class="select-field"><option value="bold">Bold pop</option><option value="clean">Clean type</option><option value="cinema">Cinema</option></select>
+            <label class="field-label title-label" for="titleInput">OPENING LINE <span>Optional · keep it short</span></label>
+            <div class="input-wrap"><input id="titleInput" type="text" maxlength="38" value="Make it count." placeholder="Add a hook for your viewer"><span id="titleCount">15/38</span></div>
+            <div class="audio-control"><div><label class="field-label" for="audioLevel">ORIGINAL AUDIO</label><span class="audio-value" id="audioValue">100%</span></div><input id="audioLevel" type="range" min="0" max="100" value="100" aria-label="Original audio level"></div>
+          </section>
+
+          <section class="export-card"><div class="export-card-copy"><span class="export-card-icon">↗</span><div><strong>Ready when you are.</strong><small>Export a share-ready video file.</small></div></div><button class="export-wide" id="exportWideBtn" type="button" disabled>Export my edit <span>↗</span></button><div class="export-spec"><span>WEBM · 1080PX</span><span class="spec-dot">·</span><span>LOCAL RENDER</span></div></section>
+        </aside>
+      </section>
+      <footer class="page-footer"><span>ClipForge Studio <i>·</i> A better first cut, faster.</span><button type="button" id="feedbackBtn">How does the smart scan work? <span>↗</span></button></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="help-modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><span class="step-kicker"><b>HOW IT WORKS</b> / A QUICK NOTE</span><h2 id="helpTitle">A strong cut starts<br>with a strong <em>moment.</em></h2><p>ClipForge samples your clip for visual changes and audio energy, then picks distinct high-signal moments for a short first cut. It favors movement and peaks; it does not know what is trending or guarantee views.</p><p>The scan runs in your browser. Your video is not uploaded. You can adjust each cut, change the framing and opening line, then render a WebM file on this device.</p><button type="button" class="modal-done" id="modalDone">Got it <span>↗</span></button></section></div>
+  <div class="render-backdrop" id="renderBackdrop" hidden><section class="render-modal"><div class="render-spinner"></div><span class="step-kicker">LOCAL RENDER</span><h2 id="renderTitle">Building your cut…</h2><p id="renderMessage">Putting your selected moments in order.</p><div class="render-rail"><span id="renderBar"></span></div><strong id="renderPercent">0%</strong><button id="cancelRenderBtn" type="button">Cancel render</button></section></div>
+</body>
+</html>
