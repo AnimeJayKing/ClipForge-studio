@@ -1,0 +1,44 @@
+{
+  "name": "clipforge-studio-desktop",
+  "version": "1.0.0",
+  "productName": "ClipForge Studio",
+  "description": "A local-first short-form video editor.",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "package:windows": "electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "studio.clipforge.desktop",
+    "productName": "ClipForge Studio",
+    "electronDownload": {
+      "cache": ".electron-cache"
+    },
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.cjs",
+      "dist/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  },
+  "allowScripts": {
+    "electron@45.2.1": true
+  }
+}
